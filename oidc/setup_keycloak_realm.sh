@@ -3,12 +3,12 @@
 #
 set -euo pipefail
 
-source /opt/jboss/config.sh
+source /opt/keycloak/config.sh
 
-readonly KC_PATH=/opt/jboss/keycloak/bin
+readonly KC_PATH=/opt/keycloak/bin
 
 echo "# Connecting to keycloak..."
-${KC_PATH}/kcadm.sh config credentials --server http://oidc:8080/auth --realm master --user ${ADMIN} --password ${ADMINPWD}
+${KC_PATH}/kcadm.sh config credentials --server http://oidc:8080 --realm master --user ${ADMIN} --password ${ADMINPWD}
 
 echo "# Creating realm.."
 ${KC_PATH}/kcadm.sh create realms -s realm=${REALM} -s enabled=true
@@ -49,9 +49,11 @@ echo "# Login client config follows..."
 ${KC_PATH}/kcadm.sh get clients/${LOGIN_ID}/installation/providers/keycloak-oidc-keycloak-json -r ${REALM}
 
 echo "# Creating user1"
-${KC_PATH}/add-user-keycloak.sh -r ${REALM} -u ${USER1} -p ${USER1PWD}
+${KC_PATH}/kcadm.sh create users -r ${REALM} -s username=${USER1} -s enabled=true -o --fields id,username
+${KC_PATH}/kcadm.sh set-password -r ${REALM} --username ${USER1} --new-password ${USER1PWD}
 
 echo "# Creating user2"
-${KC_PATH}/add-user-keycloak.sh -r ${REALM} -u ${USER2} -p ${USER2PWD}
+${KC_PATH}/kcadm.sh create users -r ${REALM} -s username=${USER2} -s enabled=true -o --fields id,username
+${KC_PATH}/kcadm.sh set-password -r ${REALM} --username ${USER2} --new-password ${USER2PWD}
 
 echo "# Now restart"

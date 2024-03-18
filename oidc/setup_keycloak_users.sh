@@ -3,11 +3,11 @@
 #
 set -euo pipefail
 
-source /opt/jboss/config.sh
-readonly KC_PATH=/opt/jboss/keycloak/bin
+source /opt/keycloak/config.sh
+readonly KC_PATH=/opt/keycloak/bin
 
 echo "# Connecting to keycloak..."
-${KC_PATH}/kcadm.sh config credentials --server http://oidc:8080/auth --realm master --user ${ADMIN} --password ${ADMINPWD}
+${KC_PATH}/kcadm.sh config credentials --server http://oidc:8080 --realm master --user ${ADMIN} --password ${ADMINPWD}
 
 echo "# Looking up user1"
 ID1=$( ${KC_PATH}/kcadm.sh get users -r mockrealm -q username=user1 --fields id --format csv | tr -d \")

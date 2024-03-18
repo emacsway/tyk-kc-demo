@@ -2,14 +2,22 @@ version: '3'
 services:
   oidc:
     container_name: oidc
-    image: jboss/keycloak
+    image: quay.io/keycloak/keycloak:24.0.1-0
     ports:
       - "8080:8080"
       - "8443:8443"
     environment:
-      KEYCLOAK_USER: kcadmin
-      KEYCLOAK_PASSWORD: admin
-      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_ADMIN: kcadmin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      # KC_LOG_LEVEL: DEBUG
+    #  KEYCLOAK_IMPORT: /tmp/real-export.json
+    #volumes:
+    #  - type: bind
+    #    source: ./realm-export.json
+    #    target: /tmp/real-export.json
+    #    read_only: true
+    command:
+      - start-dev
 
   tyk:
     container_name: tyk

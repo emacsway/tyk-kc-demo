@@ -10,7 +10,7 @@ readonly CLIENT_LOGIN_SECRET=mock_login_secret
 readonly CLIENT_GATEWAY_ID=mock_gateway_client
 readonly CLIENT_GATEWAY_SECRET=mock_gateway_secret
 
-readonly BASEURL=http://oidc:8080/auth/realms/${REALM}
+readonly BASEURL=http://oidc:8080/realms/${REALM}
 export ADMIN ADMINPWD
 export USER USERPWD
 export CLIENT_LOGIN_ID CLIENT_LOGIN_SECRET
