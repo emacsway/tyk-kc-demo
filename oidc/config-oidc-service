@@ -7,7 +7,7 @@ do
 done
 
 docker exec oidc /opt/keycloak/setup_keycloak_realm.sh > config.out
-echo "OK"
+
 docker-compose restart oidc
 sleep 15
 docker exec oidc /opt/keycloak/setup_keycloak_users.sh >> config.out

@@ -11,11 +11,39 @@ echo "# Connecting to keycloak..."
 ${KC_PATH}/kcadm.sh config credentials --server http://oidc:8080 --realm master --user ${ADMIN} --password ${ADMINPWD}
 
 echo "# Creating realm.."
-${KC_PATH}/kcadm.sh create realms -s realm=${REALM} -s enabled=true
+${KC_PATH}/kcadm.sh create realms -s realm=${REALM} -s enabled=true  # -s frontendUrl=http://localhost:8080
+
+
+echo "# Creating react client.."
+CID=$(${KC_PATH}/kcadm.sh create clients -r ${REALM} -s clientId=${REACT_CLIENT_ID} \
+                               -s enabled=true \
+                               -s rootUrl=http://localhost:5173/ \
+                               -s 'webOrigins=["http://localhost:5173"]' \
+                               -s 'redirectUris=["http://localhost:5173/*"]' \
+                               -s publicClient=true \
+                               -s directAccessGrantsEnabled=true \
+                               -s enabled=true \
+                               -i)
+${KC_PATH}/kcadm.sh get realms/${REALM}/clients/$CID/installation/providers/keycloak-oidc-keycloak-json
+
+
+echo "# Creating backend client.."
+CID=$(${KC_PATH}/kcadm.sh create clients -r ${REALM} -s clientId=${BACKEND_CLIENT_ID} \
+                               -s enabled=true \
+                               -s rootUrl=http://localhost:8001/ \
+                               -s 'webOrigins=["http://localhost:8001"]' \
+                               -s 'redirectUris=["http://localhost:8001/*"]' \
+                               -s publicClient=true \
+                               -s directAccessGrantsEnabled=true \
+                               -s enabled=true \
+                               -i)
+${KC_PATH}/kcadm.sh get realms/${REALM}/clients/$CID/installation/providers/keycloak-oidc-keycloak-json
+
 
 echo "# Creating login client.."
 LOGIN_ID=$(${KC_PATH}/kcadm.sh create clients -r ${REALM} -s clientId=${CLIENT_LOGIN_ID} \
-                               -s enabled=true -s 'redirectUris=["*"]' -s directAccessGrantsEnabled=true \
+                               -s enabled=true -s 'redirectUris=["*"]' \
+                               -s directAccessGrantsEnabled=true \
                                -s secret=${CLIENT_LOGIN_SECRET} \
                                -i)
 
@@ -49,11 +77,11 @@ echo "# Login client config follows..."
 ${KC_PATH}/kcadm.sh get clients/${LOGIN_ID}/installation/providers/keycloak-oidc-keycloak-json -r ${REALM}
 
 echo "# Creating user1"
-${KC_PATH}/kcadm.sh create users -r ${REALM} -s username=${USER1} -s enabled=true -o --fields id,username
+${KC_PATH}/kcadm.sh create users -r ${REALM} -s username=${USER1} -s firstName=${USER1} -s lastName=${USER1} -s email="${USER1}@localhost" -s emailVerified=true -s enabled=true -o --fields id,username
 ${KC_PATH}/kcadm.sh set-password -r ${REALM} --username ${USER1} --new-password ${USER1PWD}
 
 echo "# Creating user2"
-${KC_PATH}/kcadm.sh create users -r ${REALM} -s username=${USER2} -s enabled=true -o --fields id,username
+${KC_PATH}/kcadm.sh create users -r ${REALM} -s username=${USER2} -s firstName=${USER2} -s lastName=${USER2} -s email="${USER2}@localhost" -s emailVerified=true -s enabled=true -o --fields id,username
 ${KC_PATH}/kcadm.sh set-password -r ${REALM} --username ${USER2} --new-password ${USER2PWD}
 
 echo "# Now restart"

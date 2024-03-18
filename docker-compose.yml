@@ -1,4 +1,9 @@
 version: '3'
+
+networks:
+  test_network:
+    driver: bridge
+
 services:
   oidc:
     container_name: oidc
@@ -36,3 +41,26 @@ services:
     image: redis:latest
     ports:
       - "6379:6379"
+  api:
+    build: ./backend
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./backend:/api
+    command: bash -c "poetry run python manage.py runserver 0.0.0.0:8001"
+    #networks:
+    #  - test_network
+  web:
+    build: ./frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/front
+      - /front/node_modules
+    command: bash -c "npm run dev-docker"
+    networks:
+      - test_network
+    environment:
+      API_URL: localhost:8001
+      KEYCLOAK_URL: localhost:8080
+

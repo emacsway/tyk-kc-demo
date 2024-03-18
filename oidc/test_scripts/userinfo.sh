@@ -9,5 +9,6 @@ then
 fi
 
 source config.sh
+
 curl "${BASEURL}/protocol/openid-connect/userinfo" \
      -H "Authorization: Bearer ${token}" 

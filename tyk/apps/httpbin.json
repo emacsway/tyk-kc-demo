@@ -9,7 +9,7 @@
   "openid_options": {
     "providers": [
       {
-        "issuer": "http://oidc:8080/auth/realms/mockrealm",
+        "issuer": "http://oidc:8080/realms/mockrealm",
         "client_ids": {
           "bW9ja19nYXRld2F5X2NsaWVudA==": "authn_gateway"
         }
