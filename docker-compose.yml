@@ -32,6 +32,8 @@ services:
       - "8000:8000"
     depends_on:
       - tyk-redis
+    environment:
+      TYK_LOGLEVEL: DEBUG
     volumes:
       - ./tyk/apps:/opt/tyk-gateway/apps
       - ./tyk/tyk.conf:/opt/tyk-gateway/tyk.conf

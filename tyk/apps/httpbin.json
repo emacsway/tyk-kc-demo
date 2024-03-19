@@ -4,7 +4,8 @@
   "api_id": "2",
   "org_id": "gateway_demo",
   "active": true,
-
+  "use_keyless": false,
+  "use_oauth2": false,
   "use_openid": true,
   "openid_options": {
     "providers": [
@@ -31,5 +32,19 @@
     "listen_path": "/test-api/",
     "target_url": "http://httpbin.org",
     "strip_listen_path": true
+  },
+  "CORS": {
+    "enable": true,
+    "allow_credentials": true,
+    "allowed_methods": ["GET", "POST", "HEAD", "OPTIONS"],
+    "allowed_headers": ["Origin", "Accept", "Content-Type", "X-Requested-With"],
+    "allowed_origins": [
+       "http://localhost:5173",
+       "http://localhost:8000",
+       "http://tyk:8000",
+       "*"
+    ],
+    "options_passthrough": true,
+    "debug": true
   }
 }
