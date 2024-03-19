@@ -73,10 +73,16 @@ echo $LOGIN_ID
 
 echo "# Creating tyk client.."
 GATEWAY_ID=$(${KC_PATH}/kcadm.sh create clients -r ${REALM} -s clientId=${CLIENT_GATEWAY_ID} \
-                                     -s secret=${CLIENT_GATEWAY_SECRET} \
                                      -s enabled=true -s 'redirectUris=["*"]' \
                                      -s bearerOnly=true \
                                      -i)
+
+
+# GATEWAY_ID=$(${KC_PATH}/kcadm.sh create clients -r ${REALM} -s clientId=${CLIENT_GATEWAY_ID} \
+#                                      -s secret=${CLIENT_GATEWAY_SECRET} \
+#                                      -s enabled=true -s 'redirectUris=["*"]' \
+#                                      -s bearerOnly=true \
+#                                      -i)
 
 echo "# Permissions client ID follows..."
 echo $GATEWAY_ID

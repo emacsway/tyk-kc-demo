@@ -14,7 +14,7 @@ services:
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_HOSTNAME_URL: http://localhost:8080
+      KC_HOSTNAME_URL: http://oidc:8080
       # KC_LOG_LEVEL: DEBUG
       # KEYCLOAK_IMPORT: /opt/keycloak/realm-export.json
     volumes:
