@@ -12,15 +12,16 @@ services:
       - "8080:8080"
       - "8443:8443"
     environment:
-      KEYCLOAK_ADMIN: kcadmin
+      KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_HOSTNAME_URL: http://localhost:8080
       # KC_LOG_LEVEL: DEBUG
-    #  KEYCLOAK_IMPORT: /tmp/real-export.json
-    #volumes:
-    #  - type: bind
-    #    source: ./realm-export.json
-    #    target: /tmp/real-export.json
-    #    read_only: true
+      # KEYCLOAK_IMPORT: /opt/keycloak/realm-export.json
+    volumes:
+      - type: bind
+        source: ./oidc/realm-export.json
+        target: /opt/keycloak/realm-export.json
+        read_only: true
     command:
       - start-dev
 

@@ -21,5 +21,5 @@ from drk.views import SampleResource
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(r"", SampleResource.as_view({"get": "list"})),
+    path(r"resource1/", SampleResource.as_view({"get": "list"})),
 ]

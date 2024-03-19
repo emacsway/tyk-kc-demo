@@ -1,7 +1,7 @@
 import AuthenticationService from ".././AuthenticationService.jsx";
 import { useState } from "react";
 
-const BACKEND_API_URL = "http://localhost:8001";
+const BACKEND_API_URL = "http://localhost:8001/resource1/";
 export default function Resources() {
   const [response, setResponse] = useState({});
   const hitApi = () => {

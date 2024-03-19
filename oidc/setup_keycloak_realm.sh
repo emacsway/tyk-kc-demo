@@ -12,6 +12,7 @@ ${KC_PATH}/kcadm.sh config credentials --server http://oidc:8080 --realm master 
 
 echo "# Creating realm.."
 ${KC_PATH}/kcadm.sh create realms -s realm=${REALM} -s enabled=true  # -s frontendUrl=http://localhost:8080
+# ${KC_PATH}/kcadm.sh update realms/${REALM} -s frontendUrl=http://localhost:8080
 
 
 echo "# Creating react client.."
@@ -25,6 +26,16 @@ CID=$(${KC_PATH}/kcadm.sh create clients -r ${REALM} -s clientId=${REACT_CLIENT_
                                -s enabled=true \
                                -i)
 ${KC_PATH}/kcadm.sh get realms/${REALM}/clients/$CID/installation/providers/keycloak-oidc-keycloak-json
+
+echo "# Adding react audience mapper"
+${KC_PATH}/kcadm.sh \
+        create clients/${CID}/protocol-mappers/models -r ${REALM} \
+        -s name=audience-mapping \
+        -s protocol=openid-connect \
+        -s protocolMapper=oidc-audience-mapper \
+        -s config.\"included.client.audience\"=\"${CLIENT_GATEWAY_ID}\" \
+        -s config.\"access.token.claim\"="true" \
+        -s config.\"id.token.claim\"="false"
 
 
 echo "# Creating backend client.."

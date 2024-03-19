@@ -36,3 +36,19 @@ ${KC_PATH}/kcadm.sh create clients/$CID/protocol-mappers/models \
      -s 'config."user.attribute"=trusted_researcher' \
      -s 'config."jsonType.label"=boolean' \
      -s 'config."multivalued"=false'
+
+echo "# Looking up react client"
+CID=$( ${KC_PATH}/kcadm.sh get clients -r mockrealm -q clientId=${REACT_CLIENT_ID} --fields id --format csv | tr -d \")
+
+echo "# Adding react trusted_user mapper"
+${KC_PATH}/kcadm.sh create clients/$CID/protocol-mappers/models \
+     -r ${REALM} -s name=trusted -s protocol=openid-connect \
+     -s protocolMapper=oidc-usermodel-attribute-mapper \
+     -s consentRequired=false \
+     -s 'config."id.token.claim"=true' \
+     -s 'config."access.token.claim"=true' \
+     -s 'config."userinfo.token.claim"=true' \
+     -s 'config."claim.name"=trusted_researcher' \
+     -s 'config."user.attribute"=trusted_researcher' \
+     -s 'config."jsonType.label"=boolean' \
+     -s 'config."multivalued"=false'

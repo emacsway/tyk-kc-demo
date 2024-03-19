@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # set -euo pipefail
 
-readonly ADMIN=kcadmin ADMINPWD=admin
+readonly ADMIN=admin ADMINPWD=admin
 readonly USER1=user1 USER1PWD=pass1
 readonly USER2=user2 USER2PWD=pass2
 readonly REALM=mockrealm
