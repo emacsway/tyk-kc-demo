@@ -1,10 +1,19 @@
 import Keycloak from "keycloak-js";
 
-const _kc = new Keycloak({
-  url: "http://oidc:8080",
-  realm: "mockrealm",
-  clientId: "react",
-});
+const _kcMap = {
+    mockrealm: new Keycloak({
+      url: "http://oidc:8080",
+      realm: "mockrealm",
+      clientId: "react",
+    }),
+    react2: new Keycloak({
+      url: "http://oidc:8080",
+      realm: "realm2",
+      clientId: "react2",
+    }),
+}
+
+var _kc = _kcMap['mockrealm']
 
 const initKeycloak = (onAuthenticatedCallback) => {
   _kc
@@ -24,7 +33,7 @@ const initKeycloak = (onAuthenticatedCallback) => {
     .catch(error => console.log(error));
 };
 
-const doLogin = _kc.login;
+const doLogin = () => _kc.login;
 
 const getToken = () => _kc.token;
 
@@ -35,6 +44,8 @@ const updateToken = (successCallback) =>
 const getLoginUrl = () => _kc.createLoginUrl();
 const getLogoutUrl = () => _kc.createLogoutUrl();
 
+const setRealm = (realm) => { _kc = _kcMap[realm] };
+
 const AuthenticationService = {
   initKeycloak,
   doLogin,
@@ -43,6 +54,7 @@ const AuthenticationService = {
   updateToken,
   getLoginUrl,
   getLogoutUrl,
+  setRealm
 };
 
 export default AuthenticationService;
