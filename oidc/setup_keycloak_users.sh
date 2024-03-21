@@ -10,19 +10,19 @@ echo "# Connecting to keycloak..."
 ${KC_PATH}/kcadm.sh config credentials --server http://oidc:8080 --realm master --user ${ADMIN} --password ${ADMINPWD}
 
 echo "# Looking up user1"
-ID1=$( ${KC_PATH}/kcadm.sh get users -r mockrealm -q username=user1 --fields id --format csv | tr -d \")
+ID1=$( ${KC_PATH}/kcadm.sh get users -r ${REALM} -q username=${USER1} --fields id --format csv | tr -d \")
 
 echo "# Adding trusted_researcher attribute"
-${KC_PATH}/kcadm.sh update users/${ID1} -r mockrealm -s "attributes.trusted_researcher=true"
+${KC_PATH}/kcadm.sh update users/${ID1} -r ${REALM} -s "attributes.trusted_researcher=true"
 
 echo "# Looking up user2"
-ID2=$( ${KC_PATH}/kcadm.sh get users -r mockrealm -q username=user2 --fields id --format csv | tr -d \")
+ID2=$( ${KC_PATH}/kcadm.sh get users -r ${REALM} -q username=${USER2} --fields id --format csv | tr -d \")
 
 echo "# Adding trusted_researcher attribute"
-${KC_PATH}/kcadm.sh update users/${ID2} -r mockrealm -s "attributes.trusted_researcher=false"
+${KC_PATH}/kcadm.sh update users/${ID2} -r ${REALM} -s "attributes.trusted_researcher=false"
 
 echo "# Looking up login client"
-CID=$( ${KC_PATH}/kcadm.sh get clients -r mockrealm -q clientId=${CLIENT_LOGIN_ID} --fields id --format csv | tr -d \")
+CID=$( ${KC_PATH}/kcadm.sh get clients -r ${REALM} -q clientId=${CLIENT_LOGIN_ID} --fields id --format csv | tr -d \")
 
 echo "# Adding trusted_user mapper"
 ${KC_PATH}/kcadm.sh create clients/$CID/protocol-mappers/models \
@@ -38,7 +38,7 @@ ${KC_PATH}/kcadm.sh create clients/$CID/protocol-mappers/models \
      -s 'config."multivalued"=false'
 
 echo "# Looking up react client"
-CID=$( ${KC_PATH}/kcadm.sh get clients -r mockrealm -q clientId=${REACT_CLIENT_ID} --fields id --format csv | tr -d \")
+CID=$( ${KC_PATH}/kcadm.sh get clients -r ${REALM} -q clientId=${REACT_CLIENT_ID} --fields id --format csv | tr -d \")
 
 echo "# Adding react trusted_user mapper"
 ${KC_PATH}/kcadm.sh create clients/$CID/protocol-mappers/models \

@@ -1,13 +1,15 @@
 #!/bin/bash
 set -euo pipefail
 
+REALM=${1:-'mockrealm'}
+
 for file in config.sh oidc/setup_keycloak_{realm,users}.sh
 do
     docker cp ${file} oidc:/opt/keycloak/$( basename ${file} )
 done
 
-docker exec oidc /opt/keycloak/setup_keycloak_realm.sh > config.out
+docker exec oidc /opt/keycloak/setup_keycloak_realm.sh ${REALM} > config.out
 
 docker-compose restart oidc
 sleep 15
-docker exec oidc /opt/keycloak/setup_keycloak_users.sh >> config.out
+docker exec oidc /opt/keycloak/setup_keycloak_users.sh ${REALM} >> config.out

@@ -5,15 +5,13 @@ export default function Navbar() {
   return (
     <div className="d-flex justify-content-between">
       <h1 className="">KeyCloak App</h1>
-      <ul className="nav">
-        <Link onClick={() => AuthenticationService.setRealm('mockrealm')} className="nav-link">
-          mockrealm
-        </Link>
-        <Link onClick={() => AuthenticationService.setRealm('realm2')} className="nav-link">
-          realm2
-        </Link>
+      <ul key={1} className="nav">
+        {AuthenticationService.getRealms().map((realm, i) => <Link key={i} onClick={() => AuthenticationService.setRealm(realm)} className="nav-link">
+          {realm}
+        </Link>)}
       </ul>
-      <ul className="nav">
+      <span>Selected realm: {AuthenticationService.getRealm()}</span>
+      <ul key={2} className="nav">
         <Link to="/" className="nav-link">
           Home
         </Link>
