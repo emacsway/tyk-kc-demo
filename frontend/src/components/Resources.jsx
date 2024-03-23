@@ -2,13 +2,19 @@ import AuthenticationService from ".././AuthenticationService.jsx";
 import { useState } from "react";
 
 // const BACKEND_API_URL = "http://localhost:8000/test-api/get";
-const BACKEND_API_URL = "http://localhost:8000/django/resource1/";
+// const BACKEND_API_URL = "http://localhost:8000/mockrealm/resource1/";
+const BACKEND_API_URL = "http://localhost:8000/pref/resource1/";
 
 export default function Resources() {
   const [response, setResponse] = useState({});
   const hitApi = () => {
     fetch(BACKEND_API_URL, {
-      headers: { Authorization: `Bearer ${AuthenticationService.getToken()}` },
+      headers: {
+        "Authorization": `Bearer ${AuthenticationService.getToken()}`,
+        "X-Realm": AuthenticationService.getRealm()
+      },
+      method: "GET",
+      // mode: "same-origin",
     })
       .then((response) => response.json())
       .then((response) => setResponse(response))

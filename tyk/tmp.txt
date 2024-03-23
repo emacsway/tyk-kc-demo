@@ -1,0 +1,87 @@
+  "version_data": {
+    "not_versioned": true,
+    "versions": {
+      "Default": {
+        "name": "Default",
+        "use_extended_paths": true,
+        "extended_paths": {
+          "url_rewrites": [
+            {
+              "path": "{paths}",
+              "method": "GET",
+              "match_pattern": "\\/pref\\/(.+)",
+              "rewrite_to": "/mockrealm/$1"
+            }
+          ]
+        }
+      }
+    }
+  },
+
+
+        "extended_paths": {
+          "url_rewrites": [
+            {
+              "path": "/",
+              "method": "GET",
+              "match_pattern": "\\/pref\\/(.+)",
+              "rewrite_to": "tyk://self/not_found",
+              "triggers": [
+                {
+                  "on": "any",
+                  "options": {
+                    "request_context_matches": {
+                      "jwt_claims_iss": {
+                        "match_rx": "(.+)",
+                        "reverse": false
+                      }
+                    }
+                  },
+                  "rewrite_to": "/$tyk_context.trigger-0-jwt_claims_iss-1/$tyk_context.path"
+                }
+              ]
+            }
+          ]
+        }
+
+,
+        "extended_paths": {
+          "url_rewrites": [
+            {
+              "match_pattern": "/resource1/",
+              "method": "GET",
+              "path": "/resource1/",
+              "rewrite_to": "/mockrealm/resource1/",
+            },
+            {
+              "match_pattern": "/resource1/",
+              "method": "GET",
+              "path": "/resource1/",
+              "rewrite_to": "/resource1/",
+              "triggers": [
+                {
+                  "on": "any",
+                  "options": {
+                    "request_context_matches": {
+                      "cookies_REALM": {
+                        "match_rx": "^\\w+$"
+                        }
+                      }
+                    },
+                    "rewrite_to": "/$tyk_context.trigger-0-cookies_REALM-0/$tyk_context.path"
+                },
+                {
+                  "on": "any",
+                  "options": {
+                    "header_matches": {
+                      "X-Realm": {
+                        "match_rx": "^\\w+$"
+                        }
+                      }
+                    },
+                    "rewrite_to": "/$tyk_context.trigger-0-X-Realm-0/$tyk_context.path"
+                }
+              ]
+            },
+          ]
+        },

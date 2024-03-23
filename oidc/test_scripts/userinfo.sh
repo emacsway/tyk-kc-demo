@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-readonly token=${1:-"notoken"}
+readonly token=${2:-"notoken"}
 if [[ "${token}" == "notoken" ]]
 then
     >&2 echo "Usage: $0 token"
@@ -11,4 +11,4 @@ fi
 source config.sh
 
 curl "${BASEURL}/protocol/openid-connect/userinfo" \
-     -H "Authorization: Bearer ${token}" 
+     -H "Authorization: Bearer ${token}" -v

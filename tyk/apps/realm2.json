@@ -1,0 +1,50 @@
+{
+  "name": "KC plus Django Backend API",
+  "slug": "kc-backend",
+  "api_id": "4",
+  "org_id": "gateway_demo",
+  "active": true,
+  "use_keyless": false,
+  "use_oauth2": false,
+  "use_openid": true,
+  "openid_options": {
+    "providers": [
+      {
+        "issuer": "http://oidc:8080/realms/realm2",
+        "client_ids": {
+          "bW9ja19nYXRld2F5X2NsaWVudDI=": "authn_gateway"
+        }
+      }
+    ],
+    "segregate_by_client": false
+  },
+
+  "version_data": {
+    "not_versioned": true,
+    "versions": {
+      "Default": {
+        "name": "Default"
+    }
+   }
+  },
+
+  "proxy": {
+    "listen_path": "/realm2/",
+    "target_url": "http://api:8000",
+    "strip_listen_path": true
+  },
+  "CORS": {
+    "enable": true,
+    "allow_credentials": true,
+    "allowed_methods": ["GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"],
+    "allowed_headers": ["Origin", "Accept", "Content-Type", "Authorization", "User-Agent", "X-CSRF-Token", "X-Requested-With", "X-Realm"],
+    "allowed_origins": [
+       "http://localhost:5173",
+       "http://localhost:8000",
+       "http://tyk:8000",
+       "*"
+    ],
+    "options_passthrough": true,
+    "debug": true
+  }
+}

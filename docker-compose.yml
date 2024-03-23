@@ -47,10 +47,19 @@ services:
   api:
     build: ./backend
     ports:
-      - "8001:8001"
+      - "8001:8000"
     volumes:
       - ./backend:/api
-    command: bash -c "poetry run python manage.py runserver 0.0.0.0:8001"
+    command: bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
+    #networks:
+    #  - test_network
+  api2:
+    build: ./backend2
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./backend:/api
+    command: bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
     #networks:
     #  - test_network
   web:
