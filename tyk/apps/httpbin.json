@@ -44,7 +44,7 @@
        "http://tyk:8000",
        "*"
     ],
-    "options_passthrough": true,
+    "options_passthrough": false,
     "debug": true
   }
 }
