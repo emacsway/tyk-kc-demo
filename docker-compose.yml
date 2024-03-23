@@ -38,6 +38,7 @@ services:
       - ./tyk/apps:/opt/tyk-gateway/apps
       - ./tyk/tyk.conf:/opt/tyk-gateway/tyk.conf
       - ./tyk/policies:/opt/tyk-gateway/policies
+      - ./tyk/middleware:/opt/tyk-gateway/middleware
 
   tyk-redis:
     container_name: tyk-redis
@@ -58,7 +59,7 @@ services:
     ports:
       - "8002:8000"
     volumes:
-      - ./backend:/api
+      - ./backend2:/api
     command: bash -c "poetry run python manage.py runserver 0.0.0.0:8000"
     #networks:
     #  - test_network

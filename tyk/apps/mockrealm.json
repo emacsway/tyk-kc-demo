@@ -14,12 +14,6 @@
         "client_ids": {
           "bW9ja19nYXRld2F5X2NsaWVudA==": "authn_gateway"
         }
-      },
-      {
-        "issuer": "http://oidc:8080/realms/realm2",
-        "client_ids": {
-          "bW9ja19nYXRld2F5X2NsaWVudDI=": "authn_gateway"
-        }
       }
     ],
     "segregate_by_client": false

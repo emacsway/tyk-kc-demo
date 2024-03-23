@@ -2,6 +2,8 @@ import AuthenticationService from ".././AuthenticationService.jsx";
 import { useState } from "react";
 
 // const BACKEND_API_URL = "http://localhost:8000/test-api/get";
+// const BACKEND_API_URL = "http://localhost:8001/resource1/";
+// const BACKEND_API_URL = "http://localhost:8000/realm2/resource1/";
 // const BACKEND_API_URL = "http://localhost:8000/mockrealm/resource1/";
 const BACKEND_API_URL = "http://localhost:8000/pref/resource1/";
 
@@ -11,9 +13,9 @@ export default function Resources() {
     fetch(BACKEND_API_URL, {
       headers: {
         "Authorization": `Bearer ${AuthenticationService.getToken()}`,
-        "X-Realm": AuthenticationService.getRealm()
+        // "X-Realm": AuthenticationService.getRealm()
       },
-      method: "GET",
+      // method: "GET",
       // mode: "same-origin",
     })
       .then((response) => response.json())

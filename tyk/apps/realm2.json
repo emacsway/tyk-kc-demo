@@ -30,7 +30,7 @@
 
   "proxy": {
     "listen_path": "/realm2/",
-    "target_url": "http://api:8000",
+    "target_url": "http://api2:8000",
     "strip_listen_path": true
   },
   "CORS": {

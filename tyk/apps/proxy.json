@@ -14,6 +14,12 @@
         "client_ids": {
           "bW9ja19nYXRld2F5X2NsaWVudA==": "authn_gateway"
         }
+      },
+      {
+        "issuer": "http://oidc:8080/realms/realm2",
+        "client_ids": {
+          "bW9ja19nYXRld2F5X2NsaWVudDI=": "authn_gateway"
+        }
       }
     ],
     "segregate_by_client": false
@@ -43,6 +49,18 @@
                     }
                   },
                   "rewrite_to": "/$tyk_context.trigger-0-X-Realm-0/$1"
+                },
+                {
+                  "on": "any",
+                  "options": {
+                    "request_context_matches": {
+                      "jwt_claims_iss": {
+                        "match_rx": "(.+)",
+                        "reverse": false
+                      }
+                    }
+                  },
+                  "rewrite_to": "/$tyk_context.trigger-0-jwt_claims_iss-1/$1"
                 }
               ]
             }
@@ -69,5 +87,15 @@
     ],
     "options_passthrough": false,
     "debug": true
-  }
+  },
+  "custom_middleware": {
+    "pre": [
+      {
+        "name": "routeByRealm",
+        "path": "middleware/routeByRealm.js",
+        "require_session": false
+      }
+    ]
+  },
+  "driver": "otto"
 }
