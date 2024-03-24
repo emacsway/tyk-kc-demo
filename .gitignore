@@ -4,5 +4,9 @@
 *.key
 *.srl
 *.csr
+*.pyc
 .DS_Store
 .vscode
+__pycache__
+venv
+.env
