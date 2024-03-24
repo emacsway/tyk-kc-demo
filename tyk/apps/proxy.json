@@ -4,24 +4,14 @@
   "api_id": "1",
   "org_id": "gateway_demo",
   "active": true,
-  "use_keyless": false,
+  "use_keyless": true,
   "use_oauth2": false,
-  "use_openid": true,
+  "use_openid": false,
+  "auth": {
+    "auth_header_name": ""
+  },
   "openid_options": {
-    "providers": [
-      {
-        "issuer": "http://oidc:8080/realms/mockrealm",
-        "client_ids": {
-          "bW9ja19nYXRld2F5X2NsaWVudA==": "authn_gateway"
-        }
-      },
-      {
-        "issuer": "http://oidc:8080/realms/realm2",
-        "client_ids": {
-          "bW9ja19nYXRld2F5X2NsaWVudDI=": "authn_gateway"
-        }
-      }
-    ],
+    "providers": [],
     "segregate_by_client": false
   },
   "version_data": {
