@@ -76,4 +76,13 @@ services:
     environment:
       API_URL: localhost:8001
       KEYCLOAK_URL: localhost:8080
+  nextjs:
+    build: ./nextjs
+    container_name: nextjs
+    hostname: nextjs
+    ports:
+      - 4000:3000
+    env_file:
+      - ./config/nextjs/.env
+
 
