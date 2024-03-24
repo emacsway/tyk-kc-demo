@@ -7,4 +7,7 @@ class SampleResource(ViewSet):
     authentication_classes = [KeyCloakAuthentication]
 
     def list(self, request):
-        return Response(request.user.user_info)
+        return Response({
+            "realm_name": "mockrealm",
+            "response": request.user.user_info
+        })

@@ -6,11 +6,22 @@ export const authOptions = {
     // Configure one or more authentication providers
     providers: [
         KeycloakProvider({
+            id: "mockrealm",
+            name: "mockrealm",
             // @ts-ignore
             clientId: process.env.KEYCLOAK_ID,
             // @ts-ignore
             clientSecret: process.env.KEYCLOAK_SECRET,
             issuer: process.env.KEYCLOAK_ISSUER,
+        }),
+        KeycloakProvider({
+            id: "realm2",
+            name: "realm2",
+            // @ts-ignore
+            clientId: "mock_login_client2",
+            // @ts-ignore
+            clientSecret: "mock_login_secret",
+            issuer: "http://oidc:8080/realms/" + "realm2",
         })
     ],
     callbacks: {
