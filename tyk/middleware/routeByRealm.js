@@ -23,6 +23,7 @@ routeByRealm.NewProcessRequest(function(request, session, config) {
       realm = realm.substring(realm.lastIndexOf('/') + 1)
       log("### realm: " + realm)
       // request.SetHeaders["X-Realm"] = realm;
+      // request.SetHeaders["X-Username"] = claims.preferred_username;
       var toUrl = "/" + realm + "/" + request.URL.slice(PREFIX.length)
       log("### rewrite: " + request.URL + " to: " + toUrl)
       request.URL = toUrl

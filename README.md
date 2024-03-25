@@ -21,6 +21,8 @@ you can run `./oidc/wait_keycloak.sh`), add the users and realm by running
 
 ```bash
 ./oidc/config-oidc-service
+
+./oidc/config-oidc-service realm2
 ```
 
 (That will take 20 seconds or so).  The keycloak will then be configured with two users (user1 and user2),
@@ -30,7 +32,17 @@ Tyk here is configured with exactly one api, `http://tyk:8000/test-api` which ju
 it without a token, you will be sorely dissapointed and get a 401 error:
 
 ```bash
-curl http://tyk:8000/test-api/get
+curl -v http://localhost:8000/pref/resource1/
+
+# {
+#    "error": "Key not authorised"
+# }
+```
+
+or
+
+```bash
+curl -v http://tyk:8000/test-api/get
 
 # {
 #    "error": "Key not authorised"
@@ -44,8 +56,48 @@ If you _do_ have a token, however, all works.  Here we're getting one by using t
 isn't how we'd actually get the token, but:
 
 ```bash
-TOKEN1=$(./oidc/test_scripts/get_token_user1.sh | jq .access_token | tr -d \" )
-curl -H "Authorization: Bearer ${TOKEN1}" http://tyk:8000/test-api/get
+TOKEN1=$(./oidc/test_scripts/get_token_user1.sh realm2 | jq .access_token | tr -d \" );
+curl -H "Authorization: Bearer ${TOKEN1}" -v http://localhost:8000/pref/resource1/
+
+# {
+#   "realm_name":"realm2",
+#   "response":{
+#     "sub":"9d65fef1-c509-47a4-b761-d7ced1ebc7d4",
+#     "email_verified":true,
+#     "name":"user1 user1",
+#     "preferred_username":"user1",
+#     "given_name":"user1",
+#     "family_name":"user1",
+#     "email":"user1@localhost"
+#   }
+# }
+```
+
+or default realm
+
+```bash
+TOKEN1=$(./oidc/test_scripts/get_token_user1.sh | jq .access_token | tr -d \" );
+curl -H "Authorization: Bearer ${TOKEN1}" -v http://localhost:8000/pref/resource1/
+
+# {
+#   "realm_name":"mockrealm",
+#   "response":{
+#     "sub":"9d65fef1-c509-47a4-b761-d7ced1ebc7d4",
+#     "email_verified":true,
+#     "name":"user1 user1",
+#     "preferred_username":"user1",
+#     "given_name":"user1",
+#     "family_name":"user1",
+#     "email":"user1@localhost"
+#   }
+# }
+```
+
+or
+
+```bash
+TOKEN1=$(./oidc/test_scripts/get_token_user1.sh | jq .access_token | tr -d \" );
+curl -H "Authorization: Bearer ${TOKEN1}" -v  http://tyk:8000/test-api/get
 
 # {
 #   "args": {},
@@ -59,6 +111,26 @@ curl -H "Authorization: Bearer ${TOKEN1}" http://tyk:8000/test-api/get
 #   },
 #   "origin": "192.168.192.1, 216.181.72.113",
 #   "url": "http://httpbin.org/get"
+# }
+```
+
+Explore ReactJS application at http://localhost:5173/
+
+Explore NextJS application at http://localhost:4000/
+
+Userinfo:
+
+```bash
+./oidc/test_scripts/userinfo.sh realm2 $(./oidc/test_scripts/get_token_user1.sh realm2 | jq .access_token | tr -d \" )
+
+# {
+#   "sub":"9d65fef1-c509-47a4-b761-d7ced1ebc7d4",
+#   "email_verified":true,
+#   "name":"user1 user1",
+#   "preferred_username":"user1",
+#   "given_name":"user1",
+#   "family_name":"user1",
+#   "email":"user1@localhost"
 # }
 ```
 
