@@ -134,6 +134,55 @@ Userinfo:
 # }
 ```
 
+Introspection:
+
+```bash
+./oidc/test_scripts/introspect.sh realm2 $(./oidc/test_scripts/get_token_user1.sh realm2 | jq .access_token | tr -d \" )
+
+
+# {
+#   "exp":1711379868,
+#   "iat":1711379568,
+#   "jti":"2417178a-8ffa-4325-98f7-d5f6d54a5ba4",
+#   "iss":"http://oidc:8080/realms/realm2",
+#   "aud":["mock_gateway_client2","account"],
+#   "sub":"9d65fef1-c509-47a4-b761-d7ced1ebc7d4",
+#   "typ":"Bearer","azp":"mock_login_client2",
+#   "session_state":"32a13421-372e-4a02-b845-dd8e1cae2464",
+#   "acr":"1","realm_access":{
+#     "roles":["offline_access","default-roles-realm2","uma_authorization"]
+#   },
+#   "resource_access":{
+#     "account":{
+#       "roles":["manage-account","manage-account-links","view-profile"]
+#     }
+#   },
+#   "scope":"openid email profile",
+#   "sid":"32a13421-372e-4a02-b845-dd8e1cae2464",
+#   "email_verified":true,
+#   "name":"user1 user1",
+#   "preferred_username":"user1",
+#   "given_name":"user1",
+#   "family_name":"user1",
+#   "email":"user1@localhost",
+#   "client_id":"mock_login_client2",
+#   "username":"user1",
+#   "token_type":"Bearer","active":true
+# }
+```
+
+Introspection:
+
+```bash
+./oidc/test_scripts/wellknown.sh realm2
+
+# {
+#   "issuer":"http://oidc:8080/realms/realm2",
+#   ...
+# }
+```
+
+
 Note a few things here:
 
 * Tyk does not automatically do the OAuth2 dance for you; if you want that you have to implement it yourself in middleware and/or virtual endpoints.  Tyk (like a lot of other API Gateways) assumes that there is a front end to handle that for you, and that its job is to interpose between the front end and the back end.
