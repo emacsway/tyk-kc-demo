@@ -4,12 +4,20 @@ import Link from "next/link";
 import SignInButton from "@/app/components/SignInButton";
 import SignOutButton from "@/app/components/SignOutButton";
 import {json} from "stream/consumers";
+import { signIn } from "next-auth/react";
+import { useEffect } from "react";
 
 export default async function Home() {
 
     const session = await getServerSession(authOptions);
 
     const backend = process.env.BACKEND_URL
+
+    useEffect(() => {
+        if (session?.error === "RefreshAccessTokenError") {
+          signIn(); // Force sign in to hopefully resolve error
+        }
+    }, [session]);
 
     async function makeQuery(path: string) {
         try {

@@ -7,6 +7,7 @@ For convenience, add the following lines to your `/etc/hosts`:
 
 ```
 127.0.0.1       oidc
+127.0.0.1       api
 127.0.0.1       tyk
 ```
 
