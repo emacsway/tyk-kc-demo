@@ -274,8 +274,11 @@ as in [try_rate_limiting_2_tokens.sh](./try_rate_limiting_2_tokens.sh):
 
 Note that the first five requests for user 1 (3 for token 1, 2 for token 2) succeeded, and the rest failed with a 403.
 
-Some parts of the code is based on https://github.com/AlTosterino/django-react-keycloak
-and https://github.com/jackkweyunga/nextjs-keycloack-example
+Some parts of the code is based on:
+
+- https://github.com/AlTosterino/django-react-keycloak
+- https://github.com/jackkweyunga/nextjs-keycloack-example
+- https://github.com/nextauthjs/express-auth-example
 
 ## See also
 

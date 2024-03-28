@@ -84,5 +84,15 @@ services:
       - 4000:3000
     env_file:
       - ./config/nextjs/.env
+  bff:
+    build: bff
+    container_name: bff
+    hostname: bff
+    command: bash -c "npm start"
+    volumes:
+      - ./bff:/app
+      - /app/node_modules
+    ports:
+      - 4001:3000
 
 

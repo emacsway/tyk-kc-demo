@@ -1,13 +1,11 @@
-import NextAuth, { Profile, User } from "next-auth"
-import KeycloakProvider, { KeycloakProfile } from "next-auth/providers/keycloak";
-import { OAuthConfig } from "next-auth/providers/oauth";
+import Keycloak from "@auth/express/providers/keycloak";
 
 // https://next-auth.js.org/v3/tutorials/refresh-token-rotation
 // https://github.com/nextauthjs/next-auth-refresh-token-example/blob/main/pages/api/auth/%5B...nextauth%5D.js
 // https://gist.github.com/degitgitagitya/db5c4385fc549f317eac64d8e5702f74
 
 
-const refreshAccessToken = async (token: any, provider: OAuthConfig<KeycloakProfile>) => {
+const refreshAccessToken = async (token: any, provider: any) => {
   try {
     if (Date.now() > token.refreshTokenExpired) throw Error;
     const details = {
@@ -49,10 +47,9 @@ const refreshAccessToken = async (token: any, provider: OAuthConfig<KeycloakProf
   }
 };
 
-export const authOptions = {
-    // Configure one or more authentication providers
+export const authConfig = {
     providers: [
-        KeycloakProvider({
+      Keycloak({
             id: "mockrealm",
             name: "Mockrealm",
             // @ts-ignore
@@ -61,7 +58,7 @@ export const authOptions = {
             clientSecret: 'mock_login_secret',
             issuer: 'http://oidc:8080/realms/mockrealm',
         }),
-        KeycloakProvider({
+        Keycloak({
             id: "realm2",
             name: "Realm2",
             // @ts-ignore
@@ -74,9 +71,9 @@ export const authOptions = {
     callbacks: {
         async jwt({token, user, account, profile}: {
           token: any,
-          user: User,
+          user: any,
           account: any,
-          profile?: Profile,
+          profile?: any,
           trigger?: "signIn" | "signUp" | "update"
         }) {
           // Initial sign in
@@ -98,8 +95,8 @@ export const authOptions = {
           }
 
           // Access token has expired, try to update it
-          var provider = authOptions.providers.filter((i) => i.options?.id == token.provider)[0]
-          return refreshAccessToken(token, provider)
+          var provider = authConfig.providers.filter((i: any) => i.options?.id == token.provider)[0]
+          return token  // refreshAccessToken(token, provider)
         },
         async session({session, token, user}: {
           session: any,
@@ -113,8 +110,3 @@ export const authOptions = {
         }
     }
 }
-
-const handler = NextAuth(authOptions)
-
-
-export {handler as GET, handler as POST}
