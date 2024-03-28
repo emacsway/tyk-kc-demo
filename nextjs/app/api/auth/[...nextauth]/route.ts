@@ -6,52 +6,13 @@ import { OAuthConfig } from "next-auth/providers/oauth";
 // https://github.com/nextauthjs/next-auth-refresh-token-example/blob/main/pages/api/auth/%5B...nextauth%5D.js
 // https://gist.github.com/degitgitagitya/db5c4385fc549f317eac64d8e5702f74
 
-/**
- * Takes a token, and returns a new token with updated
- * `accessToken` and `accessTokenExpires`. If an error occurs,
- * returns the old token and an error property
-
-async function refreshAccessToken(token: any) {
-  try {
-    const url = {}
-
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      method: 'POST'
-    })
-
-    const refreshedTokens = await response.json()
-
-    if (!response.ok) {
-      throw refreshedTokens
-    }
-
-    return {
-      ...token,
-      accessToken: refreshedTokens.access_token,
-      accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
-      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken // Fall back to old refresh token
-    }
-  } catch (error) {
-    console.log(error)
-
-    return {
-      ...token,
-      error: 'RefreshAccessTokenError'
-    }
-  }
-}
- */
-
 
 const refreshAccessToken = async (token: any, provider: OAuthConfig<KeycloakProfile>) => {
   try {
     if (Date.now() > token.refreshTokenExpired) throw Error;
     const details = {
-      client_id: provider.clientId,
-      client_secret: provider.clientSecret,
+      client_id: provider.options?.clientId,
+      client_secret: provider.options?.clientSecret,
       grant_type: ['refresh_token'],
       refresh_token: token.refreshToken,
     };
@@ -62,7 +23,7 @@ const refreshAccessToken = async (token: any, provider: OAuthConfig<KeycloakProf
       formBody.push(encodedKey + '=' + encodedValue);
     });
     const formData = formBody.join('&');
-    const url = `${provider.issuer}/token`;
+    const url = `${provider.options?.issuer}/protocol/openid-connect/token`;
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -118,10 +79,6 @@ export const authOptions = {
           profile?: Profile,
           trigger?: "signIn" | "signUp" | "update"
         }) {
-          console.log('### DEBUG: ')
-          console.log(user)
-          console.log(account)
-          console.log(profile)
           // Initial sign in
           if (account) {
 
@@ -139,10 +96,9 @@ export const authOptions = {
           if (Date.now() < token.accessTokenExpires) {
             return token
           }
-          console.log(token)
 
           // Access token has expired, try to update it
-          var provider = authOptions.providers.filter((i) => i.id == token.provider)[0]
+          var provider = authOptions.providers.filter((i) => i.options?.id == token.provider)[0]
           return refreshAccessToken(token, provider)
         },
         async session({session, token, user}: {
@@ -153,8 +109,6 @@ export const authOptions = {
           session.user = token.user
           session.accessToken = token.accessToken
           session.error = token.error
-
-          console.log(session)
           return session
         }
     }
