@@ -277,3 +277,19 @@ Note that the first five requests for user 1 (3 for token 1, 2 for token 2) succ
 Some parts of the code is based on https://github.com/AlTosterino/django-react-keycloak
 and https://github.com/jackkweyunga/nextjs-keycloack-example
 
+## See also
+
+Using next-auth with express:
+
+- https://github.com/nextauthjs/express-auth-example
+
+BFF with keycloak-connect instead of next-auth:
+
+- https://github.com/devsu/keycloak-nodejs-multirealm
+- https://github.com/EToniolo/keycloak-multi-client
+- https://github.com/keycloak/keycloak-nodejs-connect/tree/main/example
+- https://github.com/keycloak/keycloak-quickstarts/tree/latest/nodejs/resource-server
+
+SPA with js-keycloak:
+
+- https://github.com/keycloak/keycloak-quickstarts/tree/latest/js/spa
