@@ -282,6 +282,7 @@ and https://github.com/jackkweyunga/nextjs-keycloack-example
 Using next-auth with express:
 
 - https://github.com/nextauthjs/express-auth-example
+- https://github.com/fdemir/next-proxy/blob/main/bff/index.js
 
 BFF with keycloak-connect instead of next-auth:
 
